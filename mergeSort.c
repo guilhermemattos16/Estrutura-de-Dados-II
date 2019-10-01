@@ -4,40 +4,44 @@
 #include <string.h>
 
 int merge(int *V, int inicio, int meio, int fim) {
-    int *aux = (int *)malloc((fim-inicio)*sizeof(int));
+    int tamanho = fim - inicio;
+    int *aux = (int *)malloc((tamanho)*sizeof(int));
     int i = inicio;
     int j = meio;
     int k = 0;
-    for (k = 0; k < (fim-inicio); k++)
+    if (aux != NULL)
     {
-        if (i<meio && j<fim)
+        for (k = 0; k < tamanho; k++)
         {
-            if (V[i] <= V[j])
+            if (i<meio && j<fim)
             {
-                aux[k] = V[i];
-                i++;
+                if (V[i] <= V[j])
+                {
+                    aux[k] = V[i];
+                    i++;
+                }
+                else
+                {
+                    aux[k] = V[j];
+                    j++;
+                }
+                
             }
             else
             {
-                aux[k] = V[j];
-                j++;
+                if (i >= meio)
+                {
+                    aux[k] = V[j];
+                    j++;
+                }
+                else{
+                    aux[k] = V[i];
+                    i++;
+                }
             }
-            
-        }
-        else
-        {
-            if (i >= meio)
-            {
-                aux[k] = V[j];
-                j++;
-            }
-            else{
-                aux[k] = V[i];
-                i++;
-            }
-        }
-    }//for
-    memcpy(&(V[inicio]), aux, (fim-inicio)*sizeof(int));
+        }//for
+    }
+    memcpy(&(V[inicio]), aux, (tamanho)*sizeof(int));
     free(aux);
 }
 

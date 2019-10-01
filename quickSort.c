@@ -3,42 +3,43 @@
 #include <math.h> 
 #include <string.h>
 
-void quickSort(int A[], int p, int r) {
-    int q;
-    if (p < r)
-    {
-        q = particao(A, p, r);
-        quickSort(A, p, q-1);
-        quickSort(A, q+1, r);
-    }
-}
-
-int particao(int A[], int p, int r) { 
+int particao(int vetor[], int inicio, int fim) { 
     int x, i, j;
     int aux;
-    x = A[r] ;
-    i = p - 1 ;
+    x = vetor[fim];
+    i = inicio - 1;
 
-    for (j = r; i < ; j++)
+    for (j = inicio; j < fim; j++)
     {
-        if (A[j] <= x) {
-            i = i + 1 ;
-            aux = A[i];
-            A[i] = A[j];
-            A[j] = aux;
+        if (vetor[j] <= x) {
+            i = i + 1;
+            aux = vetor[i];
+            vetor[i] = vetor[j];
+            vetor[j] = aux;
         }
     }
-    aux = A[i + 1];
-    A[i + 1] = A[r];
-    A[r] = aux;
+    aux = vetor[i + 1];
+    vetor[i + 1] = vetor[fim];
+    vetor[fim] = aux;
 
     return i+1;
+}
+
+void quickSort(int A[], int inicio, int fim) {
+    int pivo;
+    if (inicio < fim)
+    {
+        pivo = particao(A, inicio, fim);
+        printf("\n%d\n", pivo);
+        quickSort(A, inicio, pivo-1);
+        quickSort(A, pivo+1, fim);
+    }
 }
 
 int particaoAleatorizado(int A[], int p, int r) {
     int i;
     int aux;
-    i = random(p, r) ;
+    i = rand();
     aux = A[r];
     A[r] = A[i];
     A[i] = aux;
@@ -52,8 +53,8 @@ void quickSortAleatorizado(int A[], int p, int r) {
     if (p <= r)
     {
         q = particaoAleatorizado(A, p, r) ;
-        quicksortAleatorizado(A, p, q - 1) ;
-        quicksortAleatorizado(A, q + 1, r ) ;
+        quickSortAleatorizado(A, p, q - 1) ;
+        quickSortAleatorizado(A, q + 1, r ) ;
     }
 }
 
@@ -61,18 +62,20 @@ void quickSortAleatorizado(int A[], int p, int r) {
 void printVetor(int A[], int n) 
 { 
     int i; 
-    for (i = 0; i < n; i++) 
+    for (i = 0; i <= n; i++) 
         printf("%d ", A[i]); 
     printf("\n"); 
 } 
   
 int main() 
 { 
-    int A[] = {15, 12, 18, 6, 9 }; 
-    int n = sizeof(A) / sizeof(A[0]); 
+    int vetor[] = {15, 12, 18, 6, 9, 10}; 
+    int inicio = 0;
+    int fim = 5;
+    // sizeof(vetor) / sizeof(vetor[0]); 
   
-    mergeSort(A, 0, n); 
-    printVetor(A, n); 
+    quickSort(vetor, inicio, fim); 
+    printVetor(vetor, fim);
   
     return 0; 
 } 
